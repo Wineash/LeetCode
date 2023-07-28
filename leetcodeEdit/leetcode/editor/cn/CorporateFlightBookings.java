@@ -84,8 +84,23 @@ public class CorporateFlightBookings{
     
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
+    public int[] diff;
     public int[] corpFlightBookings(int[][] bookings, int n) {
+        int[] res = new int[n];
+        creatDiff(bookings,n);
+        res[0]=diff[1];
+        for (int i=1;i<n;i++){
+            res[i]=res[i-1]+diff[i+1];
+        }
+        return res;
+    }
 
+    public void creatDiff(int[][] bookings,int n){
+        diff=new int[n+1];
+        for(int[] booking:bookings){
+            diff[booking[0]]+=booking[2];
+            if (booking[1]!=n) diff[booking[1]+1]-=booking[2];
+        }
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

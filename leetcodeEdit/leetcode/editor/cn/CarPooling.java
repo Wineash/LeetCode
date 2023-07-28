@@ -70,11 +70,33 @@ public class CarPooling{
     
     
 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-    public boolean carPooling(int[][] trips, int capacity) {
+    class Solution {
+        private int[] dif = new int[1001];
+        public boolean carPooling(int[][] trips, int capacity) {
+            createDif(trips);
+            return isFull(capacity);
+        }
+        public void createDif(int[][] trips){
+            for (int[] trip:trips){
+                dif[trip[1]]+=trip[0];
+                if (trip[2]+1<1000){
+                    dif[trip[2]]-=trip[0];
+                }
+            }
+        }
+
+        public boolean isFull(int capacity){
+            int[] res = new int[1001];
+            res[0]=dif[0];
+            if (res[0]>capacity)return false;
+            for (int i=1;i<1001;i++){
+                res[i]=res[i-1]+dif[i];
+                if (res[i]>capacity)return false;
+            }
+            return true;
+        }
 
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }

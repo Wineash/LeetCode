@@ -86,10 +86,62 @@ public class ReverseWordsInAString{
     
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-    public String reverseWords(String s) {
 
+    char[] cs;
+    int len=0;
+    public String reverseWords(String s) {
+        cs=s.toCharArray();
+        reverseSub(0,cs.length-1);
+        int left=0;
+        int right=0;
+        while (left<cs.length){
+            if (cs[left]!=' '){
+                right=left;
+                while (right<cs.length && cs[right]!=' '){
+                    right++;
+                }
+                reverseSub(left,right-1);
+                left=right;
+            }else {
+                left++;
+            }
+        }
+        delEmpty();
+        return new String(new String(cs,0,len));
+    }
+
+    public void reverseSub(int start,int end){
+        while (start<=end){
+            char temp=cs[start];
+            cs[start]=cs[end];
+            cs[end]=temp;
+            start++;
+            end--;
+        }
+    }
+
+    public void delEmpty(){
+        int left=0;
+        int right=0;
+        while (cs[right]==' ') right++;
+        while (right<cs.length &&left<cs.length){
+            if (left>0&&cs[left-1]==' '&&cs[right]==' '){
+                right++;
+            }else {
+                cs[left]=cs[right];
+                left++;
+                right++;
+                len++;
+            }
+        }
+        right=len-1;
+        while (cs[right]==' '){
+            len--;
+            right--;
+        }
     }
 }
+
 //leetcode submit region end(Prohibit modification and deletion)
 
 }
